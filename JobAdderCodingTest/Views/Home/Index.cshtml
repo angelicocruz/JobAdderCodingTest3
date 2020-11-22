@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@using JobAdderCodingTest.ServiceClients
+
+@model IEnumerable<JobCandidatesMatchViewModel >
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Job</th>
+            <th>Candidate Name</th>
+            <th>Matching Skills</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var job in Model)
+        {
+            <tr>
+                <th scope="row">
+                    Job Id: @job.JobId<br />
+                    Job Name: @job.Name<br />
+                    Company: @job.Company<br />
+                    Skills: @job.Skills<br />
+                </th>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            @foreach (var candidate in @job.Candidates.OrderBy(m => m.MatchingSkills.Count()).ThenByDescending(m => m.MatchingSkills.Count()))
+            {
+                <tr>
+                    <th scope="row">&nbsp;</th>
+                    <td>@candidate.Name  (Id:@candidate.CandidateId) </td>
+                    <td>@candidate.MatchingSkills</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
